@@ -48,7 +48,7 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
     results = {}
 
     with Progress(
-        SpinnerColumn(),
+        SpinnerColumn(spinner_name="simpleDots"),
         TextColumn("[bold blue]{task.description}"),
         TimeElapsedColumn(),
         console=console,
