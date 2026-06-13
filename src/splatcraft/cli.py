@@ -84,19 +84,22 @@ def check():
     else:
         console.print("  GPU:     [red]Not detected[/]")
 
-    # Dependencies
+    # Dependencies - check PATH and venv Scripts
+    import sys
+    venv_scripts = str(Path(sys.prefix) / "Scripts") if sys.platform == "win32" else str(Path(sys.prefix) / "bin")
+
     deps = {
         "ns-process-data": "nerfstudio (pip install nerfstudio)",
         "ns-train": "nerfstudio (pip install nerfstudio)",
         "ns-export": "nerfstudio (pip install nerfstudio)",
-        "colmap": "COLMAP (apt install colmap / conda install colmap)",
+        "colmap": "COLMAP (colmap-3.9-windows)",
         "blender": "Blender (blender.org)",
         "coacd": "CoACD (pip install coacd)",
     }
     console.print("\n  [bold]Dependencies:[/]")
     for cmd, desc in deps.items():
-        found = shutil.which(cmd)
-        status = "[green]✓[/]" if found else "[yellow]✗[/]"
+        found = shutil.which(cmd) or shutil.which(cmd, path=venv_scripts)
+        status = "[green]+[/]" if found else "[yellow]-[/]"
         console.print(f"    {status} {cmd:<20} {desc}")
 
     # Python packages
@@ -104,9 +107,9 @@ def check():
     for pkg in ["trimesh", "numpy", "torch", "gsplat"]:
         try:
             __import__(pkg)
-            console.print(f"    [green]✓[/] {pkg}")
+            console.print(f"    [green]+[/] {pkg}")
         except ImportError:
-            console.print(f"    [yellow]✗[/] {pkg}")
+            console.print(f"    [yellow]-[/] {pkg}")
 
 
 @app.command()
