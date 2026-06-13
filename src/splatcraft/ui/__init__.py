@@ -1,0 +1,1 @@
+"""SplatCraft UI module."""
