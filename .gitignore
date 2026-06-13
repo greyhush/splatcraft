@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.eggs/
+deps/
+.splatcraft_work/
+output/
+*.ply
+*.obj
+.ruff_cache/
